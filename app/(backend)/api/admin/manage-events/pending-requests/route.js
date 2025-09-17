@@ -52,7 +52,7 @@ export async function PATCH(req) {
                 id: true,
                 status: true,
                 requestedById: true,
-                event: true
+                eventId: true
             }
         });
 
@@ -70,33 +70,36 @@ export async function PATCH(req) {
             );
         }
 
-        const result = await prisma.$transaction(async (tx) => {
-            const updatedRequest = await tx.eventRequest.update({
-                where: { id: id },
-                data: { status: status },
-            });
-
-            if (status === 'ACCEPTED') {
-                await tx.event.update({
-                    where: { id: eventRequest.event.id },
-                    data: { adminApproved: true },
-                });
-            }
-
-            return updatedRequest;
-        });
+        const ops = [
+            prisma.eventRequest.update({
+                where: { id },
+                data: { status }
+            })
+        ];
 
         if (status === 'ACCEPTED') {
-            await prisma.user.update({
-                where: { id: eventRequest.requestedById },
-                data: { role: 'CREATOR' },
-            });
+            // mark event approved AND promote user in same transaction
+            ops.push(
+                prisma.event.update({
+                    where: { id: eventRequest.eventId },
+                    data: { adminApproved: true }
+                })
+            );
+
+            ops.push(
+                prisma.user.update({
+                    where: { id: eventRequest.requestedById },
+                    data: { role: 'CREATOR' }
+                })
+            );
         }
+
+        const [updatedRequest] = await prisma.$transaction(ops);
 
         return NextResponse.json({
             message: `Event request ${status.toLowerCase()} successfully`,
-            eventRequestId: result.id,
-            newStatus: result.status,
+            eventRequestId: updatedRequest.id,
+            newStatus: updatedRequest.status,
         });
 
     } catch (error) {
