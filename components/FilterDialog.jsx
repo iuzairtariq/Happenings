@@ -1,4 +1,3 @@
-// FilterDialog.jsx
 'use client'
 import React, { useState } from 'react';
 import {
@@ -88,11 +87,11 @@ const FilterDialog = ({
     return (
         <Dialog open={filterOpen} onOpenChange={setFilterOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="relative">
+                <Button variant="outline" className="font-normal shadow-none">
                     <SlidersHorizontal className="w-4 h-4 mr-1" />
                     Filters
                     {activeFiltersCount > 0 && (
-                        <Badge className="ml-1 h-5 w-5 rounded p-0 flex items-center justify-center text-xs">
+                        <Badge className="ml-1 h-4 w-4 rounded p-0 flex items-center justify-center text-xs">
                             {activeFiltersCount}
                         </Badge>
                     )}

@@ -1,8 +1,8 @@
 // app/api/admin/manage-events/create-event/route.js
 import prisma from '@/lib/prisma'
 import { NextResponse } from 'next/server'
-import ImageKit from 'imagekit'
 import { getAuth } from '@clerk/nextjs/server'
+import ImageKit from 'imagekit'
 
 const imagekit = new ImageKit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -12,8 +12,8 @@ const imagekit = new ImageKit({
 
 const slugifyFileName = (name) => {
     return name
-        .replace(/\s+/g, '-')            
-        .replace(/[^a-zA-Z0-9.-]/g, '')  
+        .replace(/\s+/g, '-')
+        .replace(/[^a-zA-Z0-9.-]/g, '')
         .toLowerCase()
 }
 
@@ -71,11 +71,11 @@ export const POST = async (req) => {
                 title,
                 description,
                 category,
-                tags: tagsArray.join(', '),
+                tags: tagsArray.join(','),
                 venue,
                 startDateTime: new Date(startDate),
                 endDateTime: new Date(endDate),
-                imageUrls: images.join(', '), 
+                imageUrls: images.join(','),
                 ticketLink,
             }
         })

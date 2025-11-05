@@ -49,7 +49,7 @@ const ExpandableContent = ({
           <Badge
             key={index}
             variant="outline"
-            className="text-xs px-2 py-1"
+            className="text-xs font-normal cursor-pointer"
           >
             {tag}
           </Badge>
@@ -58,7 +58,7 @@ const ExpandableContent = ({
         {shouldShowToggle && (
           <Badge
             variant="outline"
-            className="text-xs px-2 py-1 cursor-pointer hover:bg-gray-100 transition-colors"
+            className="text-xs font-normal cursor-pointer hover:bg-gray-50"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded
@@ -85,7 +85,7 @@ const ExpandableContent = ({
               <Badge
                 key={index}
                 variant={isSelected ? "secondary" : "outline"}
-                className="text-xs px-2 py-1 cursor-pointer hover:bg-gray-100 transition-colors"
+                className="text-xs font-normal px-2 py-1 cursor-pointer hover:bg-gray-100"
                 onClick={() => onTagSelect(tag)}
               >
                 {tag}
@@ -96,7 +96,7 @@ const ExpandableContent = ({
           {shouldShowToggle && (
             <Badge
               variant="outline"
-              className="text-xs px-2 py-1 cursor-pointer hover:bg-gray-100 transition-colors"
+              className="text-xs font-normal px-2 py-1 cursor-pointer hover:bg-gray-100"
               onClick={() => setIsExpanded(!isExpanded)}
             >
               {isExpanded

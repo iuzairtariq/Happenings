@@ -17,15 +17,20 @@ export async function GET(request) {
         }
 
         const CATEGORIES = Object.values(Category)
-        const normalizedTo = query.toUpperCase()
-
+        const tokens = query
+            .split(/\W+/)
+            .map(t => t.trim().toUpperCase())
+            .filter(Boolean);
+        const matchedCategories = CATEGORIES.filter(cat =>
+            tokens.some(token => cat.includes(token))
+        );
         const offset = (page - 1) * limit;
         const whereConditions = {
             adminApproved: true,
         };
 
-        if (CATEGORIES.includes(normalizedTo)) {
-            whereConditions.category = normalizedTo;
+        if (matchedCategories.length > 0) {
+            whereConditions.category = { in: matchedCategories };
         } else {
             whereConditions.OR = [
                 { title: { contains: query } },

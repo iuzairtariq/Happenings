@@ -1,4 +1,3 @@
-// api/filter/route.js
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
@@ -59,7 +58,6 @@ const getDateRange = (timeFilter, startDate, endDate) => {
                 range.gte = customStart;
             }
             if (customEnd) {
-                // Add one day to include events on the end date
                 const endDateTime = new Date(customEnd);
                 endDateTime.setDate(endDateTime.getDate() + 1);
                 range.lt = endDateTime;
@@ -92,7 +90,6 @@ const buildEventFilters = (queryParams) => {
         startDate,
         endDate,
         location,
-        search,
         page = '1',
         limit = '20'
     } = queryParams;
@@ -125,25 +122,12 @@ const buildEventFilters = (queryParams) => {
         };
     }
 
-    if (search && search.trim()) {
-        const searchTerm = search.trim();
-        filters.AND = filters.AND || [];
-        filters.AND.push({
-            OR: [
-                { title: { contains: searchTerm } },
-                { description: { contains: searchTerm } },
-                { organizer: { contains: searchTerm } },
-                { venue: { contains: searchTerm } }
-            ]
-        });
-    }
-
+   
     return { filters, page: parseInt(page), limit: parseInt(limit) };
 };
 
 export async function GET(request) {
     try {
-        debugger;
         const { searchParams } = new URL(request.url);
         const queryParams = Object.fromEntries(searchParams.entries());
 

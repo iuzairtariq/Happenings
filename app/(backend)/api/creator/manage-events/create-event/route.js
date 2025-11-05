@@ -72,11 +72,11 @@ export const POST = async (req) => {
         title,
         description,
         category,
-        tags: tagsArray.join(', '),
+        tags: tagsArray.join(','),
         venue,
         startDateTime: new Date(startDate),
         endDateTime: new Date(endDate),
-        imageUrls: images.join(', '),
+        imageUrls: images.join(','),
         ticketLink,
       }
     })

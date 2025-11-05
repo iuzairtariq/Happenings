@@ -43,7 +43,6 @@ const schema = yup.object().shape({
       if (!Array.isArray(value)) return false;
       return value.some(file => file instanceof File);
     }),
-  ticketLink: yup.string().url('Invalid URL').required('Ticket link is required'),
 })
 
 const CreateEventForm = () => {
@@ -485,7 +484,7 @@ const CreateEventForm = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="ticketLink">Ticket Link</Label>
+                <Label htmlFor="ticketLink">Ticket Link (Optional)</Label>
                 <Input
                   id="ticketLink"
                   type="url"
@@ -493,14 +492,6 @@ const CreateEventForm = () => {
                   {...register('ticketLink')}
                   className={errors.ticketLink ? 'border-red-500' : ''}
                 />
-                {errors.ticketLink && (
-                  <div className="flex items-center gap-1 text-red-600 text-xs">
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    <p>{errors.ticketLink.message || errors.ticketLink.root?.message}</p>
-                  </div>
-                )}
               </div>
             </div>
 
